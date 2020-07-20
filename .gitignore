@@ -1,0 +1,9 @@
+node_modules/**/*
+yarn.lock
+.expo/*
+npm-debug.*
+*.log*
+.vscode
+.editorconfig
+.next/
+.DS_Store
