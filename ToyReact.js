@@ -49,7 +49,7 @@ export class Component{
     }
 
     mountTo(parent) {
-      let vdom = this.render()
+      let vdom = this.render()// this ? render ?
       vdom.mountTo(parent)
     }
     appendChild(vchild){
@@ -71,14 +71,17 @@ export let ToyReact = {
     }
     let insertChildren = (children) => {
       for (let child of children) {
-        if (typeof child === 'string'){
-            // child = document.createTextNode(child);
-            child = new TextWrapper(child)
-        }
         if (typeof child === 'object' && child instanceof Array){
             insertChildren(child)
-            child = new TextWrapper(child)
         }else{
+          if(!(child instanceof Component)
+            && !(child instanceof ElementWrapper)
+            && !(child instanceof TextWrapper))
+            child = String(child)
+          if (typeof child === 'string') {
+            // child = document.createTextNode(child);
+            child = new TextWrapper(child)
+          }
           element.appendChild(child)
         }
         // element.appendChild(child);
