@@ -12,10 +12,11 @@ class Square extends Component {
     return ( 
       <button className = "square" onClick={()=>{
         // console.log('click', this.props.value)
-        this.setState({value: 'X'})
+        this.setState({value: 'YT'})
       }}> {
         this.state.value ? this.state.value : ""
       }
+      <span>go</span>
       </button>
     );
   }
@@ -59,7 +60,18 @@ class Board extends Component {
 
 class MyComponent extends Component{
   render(){
-    return (<Board></Board>
+    return (
+      <div>
+          <Board></Board>
+          <div className= 'board'>text underground 12</div>
+          <style jsx>
+            {`
+             .board {
+               background: cyan;
+             }
+            `}
+          </style>
+      </div>
     )
   }
 }
