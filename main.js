@@ -3,21 +3,65 @@
 console.log('main')
 import {ToyReact, Component} from "./ToyReact.js"
 
+class Square extends Component {
+  render() {
+    return ( 
+      <button className = "square" onClick={()=>{console.log('click', this.props.value)}}> {
+        this.props.value
+      }
+      </button>
+    );
+  }
+}
+
+class Board extends Component {
+
+
+  renderSquare(i) {
+    return (
+      <Square
+        value={i}
+      
+      />
+      // <Square
+      //   value={this.props.squares[i]}
+      //   onClick={() => this.props.onClick(i)}
+      // />
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+      </div>
+    );
+  }
+}
 
 class MyComponent extends Component{
   render(){
-    return <div>
-      <span>hello</span>
-      <span>world</span>
-      <div>
-        {this.children}
-      </div>
-    </div>
+    return (<Board></Board>
+    )
   }
 }
 let a = <MyComponent name = 'a' id = 'ida'>
-  <span>1</span>
-  <span>2</span>
+  {/* <span>1</span>
+  <span>2</span> */}
 </MyComponent>
 // let a =  <div name="a" id='ida'>
 //   <span>hello world</span>
