@@ -4,9 +4,18 @@ console.log('main')
 import {ToyReact, Component} from "./ToyReact.js"
 
 class Square extends Component {
+  constructor(props){
+    super(props);
+    this.state =  {
+      value:null
+    }
+  }
   render() {
     return ( 
-      <button className = "square" onClick={()=>{console.log('click', this.props.value)}}> {
+      <button className = "square" onClick={()=>{
+        // console.log('click', this.props.value)
+        this.setState({value: 'X'})
+      }}> {
         this.props.value
       }
       </button>
