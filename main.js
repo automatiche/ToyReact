@@ -1,5 +1,3 @@
-// require("./lib.js")
-
 console.log('main')
 import {ToyReact, Component} from "./ToyReact.js"
 
@@ -16,7 +14,7 @@ class Square extends Component {
         // console.log('click', this.props.value)
         this.setState({value: 'X'})
       }}> {
-        this.props.value
+        this.state.value
       }
       </button>
     );
@@ -24,13 +22,10 @@ class Square extends Component {
 }
 
 class Board extends Component {
-
-
   renderSquare(i) {
     return (
       <Square
         value={i}
-      
       />
       // <Square
       //   value={this.props.squares[i]}

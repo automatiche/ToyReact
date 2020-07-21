@@ -1,21 +1,3 @@
-// export let ToyReact = {
-//   createElement(type, attributes, ...children){
-//     let element = document.createElement(type)
-//     for(let name in attributes){
-//       element.setAttribute(name, attributes[name]);
-//     }
-//     for(let child of children){
-//       if(typeof child === 'string'){
-//         child = document.createTextNode(child);
-//       element.appendChild(child)
-//       }
-//     }
-//     console.log(arguments)
-//     // debugger;
-//     return element
-//   }
-// }
-
 class ElementWrapper {
   constructor(type){
     this.root = document.createElement(type)
@@ -31,18 +13,34 @@ class ElementWrapper {
     this.root.setAttribute(name, value)
   }
   appendChild(vchild){
-    vchild.mountTo(this.root)
+        let range = document.createRange()
+        if (this.root.children.length) {
+          range.setStartAfter(this.root.lastChild)
+          range.setEndAfter(this.root.lastChild)
+        } else {
+          range.setStart(this.root, 0)
+          range.setEnd(this.root, 0)
+        }
+        vchild.mountTo(range)
   }
-  mountTo(parent){
-    parent.appendChild(this.root)
+  mountTo(range){
+    range.deleteContents()
+    range.insertNode(this.root)
+    // parent.appendChild(this.root)
   }
+  // mountTo(parent){
+  //   parent.appendChild(this.root)
+  // }
 }
 class TextWrapper {
   constructor(content){
     this.root = document.createTextNode(content)
   }
-  mountTo(parent) {
-    parent.appendChild(this.root)
+  mountTo(range) {
+  // mountTo(parent) {
+    range.deleteContents()
+    range.insertNode(this.root)
+    // // parent.appendChild(this.root)
   }
 }
 export class Component{
@@ -53,16 +51,41 @@ export class Component{
 
     setAttribute(name, value) {
       if(name.match(/^on([\s\S]+)$/)){
-        console.log(RegExp.$1)
+        console.log('component setattrbute', RegExp.$1)
       }
       this.props[name] = value
       this[name] = value
     }
 
-    mountTo(parent) {
-      let vdom = this.render()// this ? render ?
-      vdom.mountTo(parent)
+    mountTo(range) {
+      // let vdom = this.render()// this ? render ?
+      // vdom.mountTo(range)
+      this.range = range
+      this.update()
     }
+
+    // range 里存的是实dom
+    update(){
+      let placeholder= document.createComment('placeholder')
+      let range = document.createRange()
+      range.setStart(this.range.endContainer, this.range.endOffset)
+      range.setEnd(this.range.endContainer, this.range.endOffset)
+      range.insertNode(placeholder)
+
+      this.range.deleteContents()
+
+      let vdom =  this.render()
+      vdom.mountTo(this.range)
+      // placeholder.parentNode.removeChild(placeholder)
+    }
+
+    // mountTo(parent) {
+    //   let vdom = this.render()// this ? render ?
+    //   vdom.mountTo(parent)
+    //   let range = document.createRange()
+    //   range.setStartAfter(parent.lastChild)
+    //   range.setEndAfter(parent.lastChild)
+    // }
     appendChild(vchild){
       this.children.push(vchild)
     }
@@ -84,6 +107,7 @@ export class Component{
 
       }
       merge(this.state, state)
+      this.update()
       console.log('setstate', this.state);
     }
 }
@@ -123,6 +147,14 @@ export let ToyReact = {
     return element;
   },
   render(vdom, element){
-    vdom.mountTo(element)
+    let range = document.createRange()
+    if(element.children.length){
+      range.setStartAfter(element.lastChild)
+      range.setEndAfter(element.lastChild)
+    }else{
+      range.setStartAfter(element, 0)
+      range.setEndAfter(element, 0)
+    }
+    vdom.mountTo(range)
   }
 }
