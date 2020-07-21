@@ -7,3 +7,4 @@ npm-debug.*
 .editorconfig
 .next/
 .DS_Store
+dist/
