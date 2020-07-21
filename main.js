@@ -14,7 +14,7 @@ class Square extends Component {
         // console.log('click', this.props.value)
         this.setState({value: 'X'})
       }}> {
-        this.state.value
+        this.state.value ? this.state.value : ""
       }
       </button>
     );

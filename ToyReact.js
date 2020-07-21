@@ -8,7 +8,8 @@ class ElementWrapper {
       this.root.addEventListener(eventName, value)
     }
     if(name==='className'){
-      name = "class"
+      // name = "class"
+      this.root.setAttribute('class', value)
     }
     this.root.setAttribute(name, value)
   }
@@ -23,6 +24,7 @@ class ElementWrapper {
         }
         vchild.mountTo(range)
   }
+  // 虚拟转实
   mountTo(range){
     range.deleteContents()
     range.insertNode(this.root)
@@ -104,7 +106,6 @@ export class Component{
       }
       if(!this.state && state){
         this.state = {};
-
       }
       merge(this.state, state)
       this.update()
@@ -158,3 +159,5 @@ export let ToyReact = {
     vdom.mountTo(range)
   }
 }
+
+// ElementWrapper 和 Component 的区别
