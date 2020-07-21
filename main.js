@@ -1,6 +1,6 @@
 console.log('main')
 import {ToyReact, Component} from "./ToyReact.js"
-
+require('./style.css')
 class Square extends Component {
   constructor(props){
     super(props);
@@ -12,11 +12,10 @@ class Square extends Component {
     return ( 
       <button className = "square" onClick={()=>{
         // console.log('click', this.props.value)
-        this.setState({value: 'YT'})
+        this.setState({value: 'X'})
       }}> {
         this.state.value ? this.state.value : ""
       }
-      <span>go</span>
       </button>
     );
   }
@@ -63,11 +62,11 @@ class MyComponent extends Component{
     return (
       <div>
           <Board></Board>
-          <div className= 'board'>text underground 12</div>
+          <div className= 'board'>text underground</div>
           <style jsx>
             {`
              .board {
-               background: cyan;
+               background: tan;
              }
             `}
           </style>
